@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:streaming_pages/account_profile.dart';
+import 'package:streaming_pages/bloc/file_manager_bloc/file_manager_bloc.dart';
+import 'package:streaming_pages/bloc_observer.dart';
+import 'package:streaming_pages/file_delete_page.dart';
 import 'package:streaming_pages/playlist.dart';
 
-void main() {
+void main() async {
+  Bloc.observer = AppBlocObserver();
   runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+    BlocProvider(
+      create: (_) => FileManagerBloc(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: HomeScreen(),
+      ),
     ),
   );
 }
@@ -21,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _pages = [
     AccountProfile(),
     Playlist(),
+    DeleteFilePage(),
   ];
 
   @override
@@ -45,6 +54,12 @@ class _HomeScreenState extends State<HomeScreen> {
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.playlist_play,
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.delete,
               ),
               label: '',
             ),
